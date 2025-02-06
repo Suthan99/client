@@ -24,13 +24,7 @@ const Footer = () =>{
                 </div>
             </div>
             <div className="bottom">
-                <div>
-                    <h4>Courses</h4>
-                    <a href ="/">English</a>
-                    <a href ="/">Dutch</a>
-                    <a href ="/">Chinese</a>
-                    <a href ="/">French</a>
-                </div>
+               
                 <div>
                     <h4>Community</h4>
                     <a href ="/">GitHub</a>

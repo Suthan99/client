@@ -29,7 +29,6 @@ function Trip({onAddToCart}) {
   return (
     <div className="trip">
       <h1> Total Product</h1>
-      <p>Wish you all the best to level up your language skills</p>
       <div className="tripcard">
         {!Loading ? (
           AllDate &&

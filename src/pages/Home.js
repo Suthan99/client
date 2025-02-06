@@ -2,7 +2,7 @@ import Destination from "../Components/Destination";
 import Footer from "../Components/Footer";
 import Hero from "../Components/Hero"
 import Navbar from "../Components/Navbar"
-import Course from "../Components/Course";
+import ProductCards from "../Components/Course";
 import HomeImg from "../assets/homebanner2.png"
 import { useState } from "react";
 import axios from "axios";
@@ -69,7 +69,7 @@ function Home() {
             <br />
             <br />
 
-            <Course onAddToCart={onAddToCart} />
+            <ProductCards onAddToCart={onAddToCart} />
             <Footer />
         </>
     )
