@@ -12,6 +12,12 @@ export const MenuItems = [
     cName: "nav-links",
     icon: "fa-solid fa-briefcase",
   },
+  {
+    title: "Order",
+    url: "/order",
+    cName: "nav-links",
+    icon: "fa-solid fa-briefcase",
+  },
   
 
   {

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Navbar from "../../Components/Navbar";
+import { useNavigate } from "react-router";
 
 const CartPage = () => {
+  let navigate = useNavigate();
+
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [error, setError] = useState("");
@@ -13,6 +16,7 @@ const CartPage = () => {
     phoneNumber: "",
     age: "",
   });
+  const [isCartEmpty, setIsCartEmpty] = useState(false);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -29,8 +33,13 @@ const CartPage = () => {
         const response = await axios.get("http://localhost:8080/addtocard/cart", {
           headers: { Authorization: `Bearer ${userToken}` },
         });
-        setCartItems(response.data.items);
-        calculateTotal(response.data.items);
+
+        if (response.data.length === 1 && response.data[0].message === "Cart is empty.") {
+          setIsCartEmpty(true);
+        } else {
+          setCartItems(response.data.items);
+          calculateTotal(response.data.items);
+        }
       } catch (err) {
         setError("Error fetching cart items");
       }
@@ -109,6 +118,8 @@ const CartPage = () => {
       setCartItems([]); // Clear cart UI
       setTotalPrice(0);
       setOrderDetails({ name: "", address: "", phoneNumber: "", age: "" });
+      setIsCartEmpty(false)
+      navigate("/order");
     } catch (err) {
       setOrderStatus("Failed to place order."); // Set status to Failed
       setError("Failed to place order");
@@ -125,13 +136,13 @@ const CartPage = () => {
       <div className="container mx-auto p-4">
         <h2 className="text-2xl font-bold mb-4">Your Cart</h2>
 
-        {error && <p className="text-red-500">{error}</p>}
+        {/* {error && <p className="text-red-500">{error}</p>} */}
 
-        {cartItems.length === 0 ? (
+        {isCartEmpty ? (
           <p className="text-gray-600">Your cart is empty</p>
         ) : (
           <div className="border p-4 rounded-lg shadow-md">
-            {cartItems.map((item) => (
+            {cartItems && cartItems.map((item) => (
               <div key={item.productId} className="flex justify-between items-center border-b pb-2 mb-2">
                 <div>
                   <p className="font-semibold">{item.name}</p>
@@ -150,7 +161,7 @@ const CartPage = () => {
         )}
 
         {/* Order Form */}
-        <div className="mt-6">
+        {!isCartEmpty && <div className="mt-6">
           <h3 className="text-xl font-bold mb-3">Delivery Details</h3>
           <input
             type="text"
@@ -201,7 +212,7 @@ const CartPage = () => {
               {orderStatus}
             </p>
           )}
-        </div>
+        </div>}
       </div>
     </div>
   );
